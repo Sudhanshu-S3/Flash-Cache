@@ -43,18 +43,31 @@ struct RESPParser
         pos++;
         
         int array_size = parse_int(pos);
-        if (pos + 1 >= len || data[pos] != '\r' || data[pos + 1] != '\n') { pos = start; return 0; }
+        if (pos + 1 >= len || data[pos] != '\r' || data[pos + 1] != '\n') 
+        { 
+            pos = start; tokens.clear(); return 0; 
+        }
         pos += 2;
         
-        for (int i = 0; i < array_size; i++) {
-            if (pos >= len || data[pos] != '$') { pos = start; return 0; }
+        for (int i = 0; i < array_size; i++) 
+        {
+            if (pos >= len || data[pos] != '$') 
+            { 
+                pos = start; tokens.clear(); return 0; 
+            }
             pos++;
             
             int str_len = parse_int(pos);
-            if (pos + 1 >= len || data[pos] != '\r' || data[pos + 1] != '\n') { pos = start; return 0; }
+            if (pos + 1 >= len || data[pos] != '\r' || data[pos + 1] != '\n') 
+            { 
+                pos = start; tokens.clear(); return 0; 
+            }
             pos += 2;
             
-            if (pos + str_len + 2 > len) { pos = start; return 0; }
+            if (pos + str_len + 2 > len) 
+            { 
+                pos = start; tokens.clear(); return 0; 
+            }
             
             // ZERO COPY MAGIC HERE:
             // Instead of making a string, we make a view.
