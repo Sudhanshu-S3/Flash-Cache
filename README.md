@@ -1,4 +1,4 @@
-#FlashCache: 700k+ RPS High-Frequency Key-Value Store
+# FlashCache: 700k+ RPS High-Frequency Key-Value Store
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Language](https://img.shields.io/badge/language-C%2B%2B20-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
