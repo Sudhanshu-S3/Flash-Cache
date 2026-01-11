@@ -126,8 +126,8 @@ Standard parsers copy bytes into std::string objects.
 Requirements: Linux, C++20 Compiler (GCC/Clang), CMake.
 ```bash
 #1. Clone
-git clone https://github.com/Sudhanshu-S3/Distributed-Cache-System.git
-cd Distributed-Cache-System
+git clone https://github.com/Sudhanshu-S3/Flash-Cache.git
+cd Flash-Cache
 
 # 2. Build (Release Mode for Max Speed)
 mkdir build && cd build
