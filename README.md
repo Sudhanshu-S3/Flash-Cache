@@ -7,18 +7,40 @@ FlashCache is a single-threaded, event-driven key-value store engineered for **u
 Built from scratch in C++20, it leverages **kernel-bypass concepts (Epoll)** and **custom memory allocation (Arena)** to process over **763,000 requests per second** on a single core—outperforming standard Redis (~100k RPS) by **7x** on local benchmarks.
 
 Whitepaper: [FlashCache Whitepaper](/docs/FlashCache_Whitepaper.pdf)
+
+Benchmark Test: [Video](/docs/benchmark.mp4)
+
 ## Performance Benchmarks
 
-**Environment:** Fedora Linux, Single Core, 10-command Pipeline.
+**Test Environment:**
+- **Hardware:** AMD Ryzen 5 5600H, 16GB RAM
+- **OS:** Fedora Linux 42 (Workstation Edition)
+- **Tool:** redis-benchmark
+- **Configuration:** 50 parallel clients, 100,000 requests per test
 
-| Metric | FlashCache | Standard Redis | Improvement |
-| :--- | :--- | :--- | :--- |
-| **Throughput** | **763,358 RPS** | ~110,000 RPS | **7x** |
-| **P50 Latency** | **0.32ms** | 0.90ms | **60% Lower** |
+### Throughput Performance
 
- 
-![Benchmark](/docs/benchmark_test.png)
-> *Screenshot: `redis-benchmark -p 6379 -P 10 -t set,get -n 10000 -q` running against FlashCache.*
+| Test Scenario | SET (req/s) | GET (req/s) | Average (req/s) |
+|:---|---:|---:|---:|
+| **No Pipelining (3B payload)** | 79,618 | 79,745 | **79,682** |
+| **Pipelining P=10 (3B payload)** | 787,402 | 751,880 | **769,641** |
+| **No Pipelining (256B payload)** | 79,302 | 78,989 | **79,146** |
+| **Pipelining P=10 (256B payload)** | 746,269 | 746,269 | **746,269** |
+
+### Latency Distribution (milliseconds)
+
+**Without Pipelining (Optimal Latency):**
+| Operation | P50 | P95 | P99 | P99.9 |
+|:---|---:|---:|---:|---:|
+| **SET** | 0.327 | 0.351 | 0.431 | 0.543 |
+| **GET** | 0.327 | 0.351 | 0.399 | 0.463 |
+
+**With Pipelining P=10 (Maximum Throughput):**
+| Operation | P50 | P95 | P99 | P99.9 |
+|:---|---:|---:|---:|---:|
+| **SET** | 0.327 | 0.383 | 0.575 | 1.111 |
+| **GET** | 0.335 | 0.463 | 0.503 | 0.663 |
+
 
 ## Core Architecture
 
@@ -127,7 +149,7 @@ Standard parsers copy bytes into std::string objects.
 Requirements: Linux, C++20 Compiler (GCC/Clang), CMake.
 ```bash
 #1. Clone
-git clone https://github.com/Sudhanshu-S3/Flash-Cache.git
+git clone https://github.com/Sudhanshu-S3/FlashCache.git
 cd Flash-Cache
 
 # 2. Build (Release Mode for Max Speed)
