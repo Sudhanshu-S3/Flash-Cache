@@ -6,6 +6,7 @@ FlashCache is a single-threaded, event-driven key-value store engineered for **u
 
 Built from scratch in C++20, it leverages **kernel-bypass concepts (Epoll)** and **custom memory allocation (Arena)** to process over **763,000 requests per second** on a single core—outperforming standard Redis (~100k RPS) by **7x** on local benchmarks.
 
+Whitepaper: [FlashCache_Whitepaper](/docs/FlashCache_Whitepaper.pdf)
 ## Performance Benchmarks
 
 **Environment:** Fedora Linux, Single Core, 10-command Pipeline.
